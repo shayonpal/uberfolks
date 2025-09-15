@@ -1,0 +1,8 @@
+name = "uberfolks"
+compatibility_date = "2024-09-15"
+
+[env.production]
+name = "uberfolks"
+
+[env.preview]
+name = "uberfolks-preview"
