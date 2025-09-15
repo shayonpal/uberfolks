@@ -3,267 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uberfolks - Welcome</title>
-    <style>
-        /* CSS Custom Properties for Theme Colors */
-        :root {
-            /* GitHub Light Theme */
-            --gh-bg-primary: #ffffff;
-            --gh-bg-secondary: #f6f8fa;
-            --gh-bg-tertiary: #eeeeee;
-            --gh-text-primary: #000000;
-            --gh-text-secondary: #6a737d;
-            --gh-accent-primary: #005cc5;
-            --gh-accent-secondary: #d73a49;
-            --gh-border: #d0d7de;
-
-            /* Nord Dark Theme */
-            --nord-bg-primary: #2e3440;
-            --nord-bg-secondary: #3b4252;
-            --nord-bg-tertiary: #434c5e;
-            --nord-text-primary: #eceff4;
-            --nord-text-secondary: #d8dee9;
-            --nord-accent-primary: #88c0d0;
-            --nord-accent-secondary: #81a1c1;
-            --nord-border: #4c566a;
-        }
-
-        /* Light Theme (GitHub Light) */
-        [data-theme="light"] {
-            --bg-primary: var(--gh-bg-primary);
-            --bg-secondary: var(--gh-bg-secondary);
-            --bg-tertiary: var(--gh-bg-tertiary);
-            --text-primary: var(--gh-text-primary);
-            --text-secondary: var(--gh-text-secondary);
-            --accent-primary: var(--gh-accent-primary);
-            --accent-secondary: var(--gh-accent-secondary);
-            --border-color: var(--gh-border);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
-            --container-bg: rgba(255, 255, 255, 0.95);
-            --container-border: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Dark Theme (Nord) */
-        [data-theme="dark"] {
-            --bg-primary: var(--nord-bg-primary);
-            --bg-secondary: var(--nord-bg-secondary);
-            --bg-tertiary: var(--nord-bg-tertiary);
-            --text-primary: var(--nord-text-primary);
-            --text-secondary: var(--nord-text-secondary);
-            --accent-primary: var(--nord-accent-primary);
-            --accent-secondary: var(--nord-accent-secondary);
-            --border-color: var(--nord-border);
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --gradient-start: #434c5e;
-            --gradient-end: #2e3440;
-            --container-bg: rgba(59, 66, 82, 0.95);
-            --container-border: rgba(76, 86, 106, 0.3);
-        }
-
-        /* Auto Theme - defaults to light, media query handles dark */
-        [data-theme="auto"] {
-            --bg-primary: var(--gh-bg-primary);
-            --bg-secondary: var(--gh-bg-secondary);
-            --bg-tertiary: var(--gh-bg-tertiary);
-            --text-primary: var(--gh-text-primary);
-            --text-secondary: var(--gh-text-secondary);
-            --accent-primary: var(--gh-accent-primary);
-            --accent-secondary: var(--gh-accent-secondary);
-            --border-color: var(--gh-border);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
-            --container-bg: rgba(255, 255, 255, 0.95);
-            --container-border: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Auto theme dark mode via system preference */
-        @media (prefers-color-scheme: dark) {
-            [data-theme="auto"] {
-                --bg-primary: var(--nord-bg-primary);
-                --bg-secondary: var(--nord-bg-secondary);
-                --bg-tertiary: var(--nord-bg-tertiary);
-                --text-primary: var(--nord-text-primary);
-                --text-secondary: var(--nord-text-secondary);
-                --accent-primary: var(--nord-accent-primary);
-                --accent-secondary: var(--nord-accent-secondary);
-                --border-color: var(--nord-border);
-                --shadow-color: rgba(0, 0, 0, 0.3);
-                --gradient-start: #434c5e;
-                --gradient-end: #2e3440;
-                --container-bg: rgba(59, 66, 82, 0.95);
-                --container-border: rgba(76, 86, 106, 0.3);
-            }
-        }
-
-        /* Base Styles */
-        * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-            color: var(--text-primary);
-        }
-
-        .theme-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 8px;
-            background: var(--container-bg);
-            padding: 8px;
-            border-radius: 12px;
-            border: 1px solid var(--container-border);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-
-        .theme-btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .theme-btn:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .theme-btn.active {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            font-weight: 600;
-        }
-
-        .container {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--container-bg);
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--container-border);
-            box-shadow: 0 8px 32px var(--shadow-color);
-            max-width: 500px;
-            width: 100%;
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 4px 12px var(--shadow-color));
-            transition: filter 0.3s ease;
-        }
-
-        /* SVG Logo theme-aware styling */
-        .logo svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Light theme - keep original blue logo */
-        [data-theme="light"] .logo svg {
-            filter: none;
-        }
-
-        /* Dark theme - make logo lighter and more cyan */
-        [data-theme="dark"] .logo svg {
-            filter: brightness(1.8) hue-rotate(-10deg) saturate(0.9);
-        }
-
-        /* Auto theme - follow system preference */
-        [data-theme="auto"] .logo svg {
-            filter: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            [data-theme="auto"] .logo svg {
-                filter: brightness(1.8) hue-rotate(-10deg) saturate(0.9);
-            }
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 300;
-            color: var(--text-primary);
-            line-height: 1.2;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: var(--bg-tertiary);
-            border-radius: 25px;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .theme-switcher {
-                top: 10px;
-                right: 10px;
-                gap: 4px;
-                padding: 6px;
-            }
-
-            .theme-btn {
-                padding: 6px 8px;
-                font-size: 0.8rem;
-            }
-
-            .container {
-                margin: 60px 10px 20px;
-                padding: 2rem 1.5rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            p {
-                font-size: 1.1rem;
-            }
-        }
-    </style>
+    <title>UberFolks - Crafting Digital Experiences That Matter</title>
+    <meta name="description" content="UberFolks builds web and mobile applications that solve real user problems with thoughtful design and robust functionality.">
+    <meta name="keywords" content="app development, web apps, mobile apps, software development, user experience">
+    <link rel="stylesheet" href="global.css">
 </head>
 <body>
-    <!-- Theme Switcher -->
-    <div class="theme-switcher">
-        <button class="theme-btn" data-theme="light">☀️ Light</button>
-        <button class="theme-btn active" data-theme="auto">🌓 Auto</button>
-        <button class="theme-btn" data-theme="dark">🌙 Dark</button>
+    <div class="floating-elements">
+        <div class="floating-shape" style="top: 20%; left: 10%; font-size: 2rem;">💡</div>
+        <div class="floating-shape" style="top: 60%; right: 15%; font-size: 2rem; animation-delay: -2s;">⚡</div>
+        <div class="floating-shape" style="top: 40%; left: 80%; font-size: 2rem; animation-delay: -4s;">🚀</div>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-toggle" id="theme-toggle">
+            <div class="theme-toggle-slider"></div>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="logo">
             <svg width="303" height="303" viewBox="0 0 303 303" xmlns="http://www.w3.org/2000/svg">
                 <g fill="#5e81ac">
@@ -285,70 +45,151 @@
                 </g>
             </svg>
         </div>
-        <h1>Welcome to Uberfolks 🚀</h1>
-        <p>Your website is now live with working CI/CD! ✅</p>
-        <div class="status">✨ Powered by Cloudflare Pages + GitHub Actions</div>
-    </div>
+
+        <h1>UberFolks</h1>
+        <p class="tagline">Building web and mobile apps that solve real problems</p>
+        <p class="mission">Every line of code serves a purpose. We design and develop web and mobile applications that eliminate daily friction, save valuable time, and make users genuinely productive. Our focus is understanding what users actually need, not what technology can do.</p>
+        <p class="mission">Clean interfaces, robust functionality, zero bloat—just powerful software that works seamlessly. We believe the best technology disappears into the background, empowering people to accomplish their goals effortlessly.</p>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div>Years Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div>User-Focused</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12+</div>
+                <div>Apps Built</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section class="container">
+        <div class="card">
+            <h2>What We Do</h2>
+            <p>We specialize in creating digital solutions that actually solve problems. Every line of code, every design decision, and every user interaction is crafted with purpose.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🌐</span>
+                    <h4>Web Applications</h4>
+                    <p>Progressive web apps that work seamlessly across all devices. Fast, responsive, and built with modern technologies that ensure your users have the best experience.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h4>Mobile Apps</h4>
+                    <p>Native and cross-platform mobile applications that feel at home on every device. We focus on performance, usability, and the details that matter.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h4>Problem-First Approach</h4>
+                    <p>We start by understanding your users' real pain points. Technology is just the tool - solving meaningful problems is the goal.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h4>Performance Focused</h4>
+                    <p>Fast loading times, smooth interactions, and optimized experiences. We build apps that users love to use, not endure.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h4>Security First</h4>
+                    <p>Your data and your users' data is precious. We implement security best practices from day one, not as an afterthought.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🚀</span>
+                    <h4>Scalable Solutions</h4>
+                    <p>Built to grow with your needs. Our applications are architected to handle success - from MVP to millions of users.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 UberFolks. Building apps that solve problems, one user at a time.</p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Crafted with care in Toronto 🇨🇦</p>
+        </div>
+    </footer>
 
     <script>
         class ThemeSwitcher {
             constructor() {
                 this.currentTheme = localStorage.getItem('theme') || 'auto';
+                this.effectiveTheme = this.getEffectiveTheme();
+                this.toggle = document.getElementById('theme-toggle');
                 this.init();
             }
 
-            init() {
-                // Set initial theme
-                this.setTheme(this.currentTheme);
+            getEffectiveTheme() {
+                if (this.currentTheme === 'auto') {
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                return this.currentTheme;
+            }
 
-                // Add event listeners
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const theme = e.target.getAttribute('data-theme');
-                        this.setTheme(theme);
-                    });
+            init() {
+                this.updateDisplay();
+
+                this.toggle.addEventListener('click', () => {
+                    this.toggleTheme();
                 });
 
-                // Listen for system theme changes when in auto mode
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                     if (this.currentTheme === 'auto') {
-                        this.updateActiveButton();
+                        this.effectiveTheme = this.getEffectiveTheme();
+                        this.updateDisplay();
                     }
                 });
             }
 
-            setTheme(theme) {
-                this.currentTheme = theme;
-
-                // Update HTML attribute
-                document.documentElement.setAttribute('data-theme', theme);
-
-                // Save to localStorage
-                localStorage.setItem('theme', theme);
-
-                // Update button states
-                this.updateActiveButton();
-            }
-
-            updateActiveButton() {
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-
-                const activeBtn = document.querySelector(`[data-theme="${this.currentTheme}"]`);
-                if (activeBtn) {
-                    activeBtn.classList.add('active');
+            toggleTheme() {
+                if (this.effectiveTheme === 'light') {
+                    this.setTheme('dark');
+                } else {
+                    this.setTheme('light');
                 }
             }
 
-            getCurrentTheme() {
-                return this.currentTheme;
+            setTheme(theme) {
+                this.currentTheme = theme;
+                this.effectiveTheme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                if (this.effectiveTheme === 'dark') {
+                    this.toggle.classList.add('dark');
+                } else {
+                    this.toggle.classList.remove('dark');
+                }
+                document.documentElement.setAttribute('data-theme', this.currentTheme);
             }
         }
 
-        // Initialize theme switcher when DOM is loaded
+        // Initialize theme switcher
         document.addEventListener('DOMContentLoaded', () => {
             new ThemeSwitcher();
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
