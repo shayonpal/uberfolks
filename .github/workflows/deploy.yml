@@ -22,5 +22,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=uberfolks
+          command: pages deploy . --project-name=uberfolks --skip-caching
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          packageManager: none
