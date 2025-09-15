@@ -1,60 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uberfolks - Welcome</title>
     <style>
+        /* CSS Custom Properties for Theme Colors */
+        :root {
+            /* GitHub Light Theme */
+            --gh-bg-primary: #ffffff;
+            --gh-bg-secondary: #f6f8fa;
+            --gh-bg-tertiary: #eeeeee;
+            --gh-text-primary: #000000;
+            --gh-text-secondary: #6a737d;
+            --gh-accent-primary: #005cc5;
+            --gh-accent-secondary: #d73a49;
+            --gh-border: #d0d7de;
+
+            /* Nord Dark Theme */
+            --nord-bg-primary: #2e3440;
+            --nord-bg-secondary: #3b4252;
+            --nord-bg-tertiary: #434c5e;
+            --nord-text-primary: #eceff4;
+            --nord-text-secondary: #d8dee9;
+            --nord-accent-primary: #88c0d0;
+            --nord-accent-secondary: #81a1c1;
+            --nord-border: #4c566a;
+        }
+
+        /* Light Theme (GitHub Light) */
+        [data-theme="light"] {
+            --bg-primary: var(--gh-bg-primary);
+            --bg-secondary: var(--gh-bg-secondary);
+            --bg-tertiary: var(--gh-bg-tertiary);
+            --text-primary: var(--gh-text-primary);
+            --text-secondary: var(--gh-text-secondary);
+            --accent-primary: var(--gh-accent-primary);
+            --accent-secondary: var(--gh-accent-secondary);
+            --border-color: var(--gh-border);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --container-border: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Theme (Nord) */
+        [data-theme="dark"] {
+            --bg-primary: var(--nord-bg-primary);
+            --bg-secondary: var(--nord-bg-secondary);
+            --bg-tertiary: var(--nord-bg-tertiary);
+            --text-primary: var(--nord-text-primary);
+            --text-secondary: var(--nord-text-secondary);
+            --accent-primary: var(--nord-accent-primary);
+            --accent-secondary: var(--nord-accent-secondary);
+            --border-color: var(--nord-border);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --gradient-start: #434c5e;
+            --gradient-end: #2e3440;
+            --container-bg: rgba(59, 66, 82, 0.95);
+            --container-border: rgba(76, 86, 106, 0.3);
+        }
+
+        /* Auto Theme - defaults to light, media query handles dark */
+        [data-theme="auto"] {
+            --bg-primary: var(--gh-bg-primary);
+            --bg-secondary: var(--gh-bg-secondary);
+            --bg-tertiary: var(--gh-bg-tertiary);
+            --text-primary: var(--gh-text-primary);
+            --text-secondary: var(--gh-text-secondary);
+            --accent-primary: var(--gh-accent-primary);
+            --accent-secondary: var(--gh-accent-secondary);
+            --border-color: var(--gh-border);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --container-border: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Auto theme dark mode via system preference */
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] {
+                --bg-primary: var(--nord-bg-primary);
+                --bg-secondary: var(--nord-bg-secondary);
+                --bg-tertiary: var(--nord-bg-tertiary);
+                --text-primary: var(--nord-text-primary);
+                --text-secondary: var(--nord-text-secondary);
+                --accent-primary: var(--nord-accent-primary);
+                --accent-secondary: var(--nord-accent-secondary);
+                --border-color: var(--nord-border);
+                --shadow-color: rgba(0, 0, 0, 0.3);
+                --gradient-start: #434c5e;
+                --gradient-end: #2e3440;
+                --container-bg: rgba(59, 66, 82, 0.95);
+                --container-border: rgba(76, 86, 106, 0.3);
+            }
+        }
+
+        /* Base Styles */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-primary);
         }
+
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: var(--container-bg);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .theme-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .theme-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .theme-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            font-weight: 600;
+        }
+
         .container {
             text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem 2rem;
+            background: var(--container-bg);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--container-border);
+            box-shadow: 0 8px 32px var(--shadow-color);
+            max-width: 500px;
+            width: 100%;
         }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-        .status {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            font-size: 0.9rem;
-        }
+
         .logo {
             width: 120px;
             height: 120px;
             margin-bottom: 2rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 12px var(--shadow-color));
+            transition: filter 0.3s ease;
+        }
+
+        /* SVG Logo theme-aware styling */
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Light theme - keep original blue logo */
+        [data-theme="light"] .logo svg {
+            filter: none;
+        }
+
+        /* Dark theme - make logo lighter and more cyan */
+        [data-theme="dark"] .logo svg {
+            filter: brightness(1.8) hue-rotate(-10deg) saturate(0.9);
+        }
+
+        /* Auto theme - follow system preference */
+        [data-theme="auto"] .logo svg {
+            filter: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .logo svg {
+                filter: brightness(1.8) hue-rotate(-10deg) saturate(0.9);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .theme-switcher {
+                top: 10px;
+                right: 10px;
+                gap: 4px;
+                padding: 6px;
+            }
+
+            .theme-btn {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+
+            .container {
+                margin: 60px 10px 20px;
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-btn" data-theme="light">☀️ Light</button>
+        <button class="theme-btn active" data-theme="auto">🌓 Auto</button>
+        <button class="theme-btn" data-theme="dark">🌙 Dark</button>
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
-        <img src="images/uberfolks-logo.png" alt="UberFolks Logo" class="logo">
+        <div class="logo">
+            <svg width="303" height="303" viewBox="0 0 303 303" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#5e81ac">
+                    <!-- Lightbulb with checkmark icon -->
+                    <path d="M151.5 60c-25.5 0-46.2 20.7-46.2 46.2 0 15.4 7.5 29.1 19.1 37.6v19.7c0 4.2 3.4 7.6 7.6 7.6h39c4.2 0 7.6-3.4 7.6-7.6v-19.7c11.6-8.5 19.1-22.2 19.1-37.6 0-25.5-20.7-46.2-46.2-46.2zm23.1 74.8c-2.1 1.5-3.3 3.9-3.3 6.5v15.2h-39v-15.2c0-2.6-1.2-5-3.3-6.5-9.6-7-15.3-18.3-15.3-30.6 0-20.9 17-37.9 37.9-37.9s37.9 17 37.9 37.9c0 12.3-5.7 23.6-15.3 30.6z"/>
+                    <path d="M131.7 179.4h39c4.2 0 7.6-3.4 7.6-7.6s-3.4-7.6-7.6-7.6h-39c-4.2 0-7.6 3.4-7.6 7.6s3.4 7.6 7.6 7.6z"/>
+                    <path d="M131.7 194.6h39c4.2 0 7.6-3.4 7.6-7.6s-3.4-7.6-7.6-7.6h-39c-4.2 0-7.6 3.4-7.6 7.6s3.4 7.6 7.6 7.6z"/>
+                    <path d="M151.5 209.8c-8.4 0-15.2 6.8-15.2 15.2s6.8 15.2 15.2 15.2 15.2-6.8 15.2-15.2-6.8-15.2-15.2-15.2z"/>
+                    <!-- Rays around the bulb -->
+                    <rect x="147.9" y="30" width="7.2" height="15" rx="3.6"/>
+                    <rect x="88.5" y="45.3" width="7.2" height="15" rx="3.6" transform="rotate(-30 92.1 52.8)"/>
+                    <rect x="61.8" y="88.5" width="15" height="7.2" rx="3.6"/>
+                    <rect x="74.7" y="142.2" width="15" height="7.2" rx="3.6" transform="rotate(-60 82.2 145.8)"/>
+                    <rect x="213.3" y="142.2" width="15" height="7.2" rx="3.6" transform="rotate(60 220.8 145.8)"/>
+                    <rect x="226.2" y="88.5" width="15" height="7.2" rx="3.6"/>
+                    <rect x="207.3" y="45.3" width="7.2" height="15" rx="3.6" transform="rotate(30 210.9 52.8)"/>
+                    <!-- Checkmark inside the bulb -->
+                    <path d="M140.7 106.2l7.6 7.6 15.2-15.2c1.5-1.5 3.9-1.5 5.4 0s1.5 3.9 0 5.4l-17.9 17.9c-1.5 1.5-3.9 1.5-5.4 0l-10.3-10.3c-1.5-1.5-1.5-3.9 0-5.4s3.9-1.5 5.4 0z" fill="#a3be8c"/>
+                </g>
+            </svg>
+        </div>
         <h1>Welcome to Uberfolks 🚀</h1>
         <p>Your website is now live with working CI/CD! ✅</p>
         <div class="status">✨ Powered by Cloudflare Pages + GitHub Actions</div>
     </div>
+
+    <script>
+        class ThemeSwitcher {
+            constructor() {
+                this.currentTheme = localStorage.getItem('theme') || 'auto';
+                this.init();
+            }
+
+            init() {
+                // Set initial theme
+                this.setTheme(this.currentTheme);
+
+                // Add event listeners
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const theme = e.target.getAttribute('data-theme');
+                        this.setTheme(theme);
+                    });
+                });
+
+                // Listen for system theme changes when in auto mode
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if (this.currentTheme === 'auto') {
+                        this.updateActiveButton();
+                    }
+                });
+            }
+
+            setTheme(theme) {
+                this.currentTheme = theme;
+
+                // Update HTML attribute
+                document.documentElement.setAttribute('data-theme', theme);
+
+                // Save to localStorage
+                localStorage.setItem('theme', theme);
+
+                // Update button states
+                this.updateActiveButton();
+            }
+
+            updateActiveButton() {
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                const activeBtn = document.querySelector(`[data-theme="${this.currentTheme}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+            }
+
+            getCurrentTheme() {
+                return this.currentTheme;
+            }
+        }
+
+        // Initialize theme switcher when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeSwitcher();
+        });
+    </script>
 </body>
 </html>
