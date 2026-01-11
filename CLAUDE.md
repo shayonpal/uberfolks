@@ -56,6 +56,14 @@ git push origin main
 npx wrangler pages deploy . --project-name=uberfolks
 ```
 
+### Custom Domains
+The site is accessible via two custom domains:
+- **Primary**: https://uberfolks.ca (Canada)
+- **Secondary**: https://uberfolks.in (India)
+
+Both domains are configured in the Cloudflare Pages dashboard to point to the same deployment. Domain configuration is NOT in code - it's managed in Cloudflare's UI under:
+`Pages → uberfolks → Custom domains`
+
 ### Theme Development
 - Light theme colors defined in `:root` and `[data-theme="light"]`
 - Dark theme colors defined in `[data-theme="dark"]`

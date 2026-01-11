@@ -27,3 +27,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Symlinks to shared configs
+.markdownlint-cli2.jsonc
